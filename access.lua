@@ -27,13 +27,23 @@ local accessConfig ={
 Utils.sync_config(accessConfig,hostConfig)
 
 if accessConfig["waf_status"]==false then return
-	elseif accessConfig["ip_whitelist"]==true and Lib.ip_whitelist(Flag.base,red)==true then return end
+	elseif accessConfig["ip_whitelist"]==true 
+		then
+			if Lib.ip_whitelist(Flag.base,red)~=true then return
+				else page.black_page({403,"Forbiddened By ScarletWAF","_"})
+			end
+		end
 
 -- uri层覆盖host层
 Utils.sync_config(accessConfig,uriConfig)
 
 if accessConfig["waf_status"]==false then return
-	elseif accessConfig["ip_whitelist"]==true and Lib.ip_whitelist(Flag.custom,red)==true then return end
+	elseif accessConfig["ip_whitelist"]==true 
+		then
+			if Lib.ip_whitelist(Flag.base,red)~=true then return
+				else page.black_page({403,"Forbiddened By ScarletWAF","_"})
+			end
+		end
 
 --------------------------- 准入判断
 

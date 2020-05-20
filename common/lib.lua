@@ -13,7 +13,7 @@ local function getIp(re)
     --     client_IP = ngx.req.get_headers()["X_Forwarded_For"]
     -- end
     if client_IP == nil then
-        client_IP = ngx.var.remote_addr
+        local client_IP = ngx.var.remote_addr
     end
     return client_IP
 end
@@ -164,11 +164,11 @@ end
 local function whiteIpCheck(flag,red)
     local set ,err
     if flag == Flag.base then
-        set, err = red:SMEMBERS(Utils.base_key_gen("WHITEIP"))
+        set, err = red:zrange(Utils.base_key_gen("WHITEIP"),0,-1)
     elseif flag == Flag.custom then
-        set ,err = red:SMEMBERS(Utils.custom_key_gen("WHITEIP"))
+        set ,err = red:zrange(Utils.custom_key_gen("WHITEIP"),0,-1)
     end
-    if err~=nil then ngx.log(ngx.ERR,"DEBUGINFO error when retrive data in whiteIpCheck") end
+    if err~=nil then ngx.log(ngx.ERR,"DEBUGINFO error when retrive data in whiteIpCheck ",err) end
     local clientIp = getIp()
     for key, item in ipairs(set) do
         if clientIp == item then
