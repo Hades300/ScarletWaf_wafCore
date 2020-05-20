@@ -12,8 +12,9 @@ local function getIp(re)
     -- if client_IP == nil then
     --     client_IP = ngx.req.get_headers()["X_Forwarded_For"]
     -- end
+    local client_IP
     if client_IP == nil then
-        local client_IP = ngx.var.remote_addr
+        client_IP = ngx.var.remote_addr
     end
     return client_IP
 end
