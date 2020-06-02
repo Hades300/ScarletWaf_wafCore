@@ -73,33 +73,54 @@ Utils.sync_config(checkConfig,hostConfig)
 -- 目前放在hostConfig里 也就是要么都启用 要么都不用
 if Config.develop then ngx.say("BASE>当前检查项","libsqli_token_check","状态:",hostConfig.libsqli_token_check,"<br>") end
 if (hostConfig.libsqli_token_check==true) then
-	if (hostConfig.get_args_check==true) then
-		if (Lib.libsqli_get_check()~=true) then
-			Log.record(Utils.log_gen("libsqli_get_check"),red)
-			page.black_page({403,"Forbiddened By ScarletWAF","_"})
-			return
-		end
+	-- if (hostConfig.get_args_check==true) then
+	-- 	if (Lib.libsqli_get_check()~=true) then
+	-- 		Log.record(Utils.log_gen("libsqli_get_check"),red)
+	-- 		page.black_page({403,"Forbiddened By ScarletWAF","_"})
+	-- 		return
+	-- 	end
+	-- end
+	-- if (hostConfig.post_args_check==true) then
+	-- 	if (Lib.libsqli_post_check()~=true) then
+	-- 		Log.record(Utils.log_gen("libsqli_post_check"),red)
+	-- 		page.black_page({403,"Forbiddened By ScarletWAF","_"})
+	-- 		return
+	-- 	end
+	-- end
+	-- if (hostConfig.header_check==true) then
+	-- 	if (Lib.libsqli_header_check()~=true) then
+	-- 		Log.record(Utils.log_gen("libsqli_header_check"),red)
+	-- 		page.black_page({403,"Forbiddened By ScarletWAF","_"})
+	-- 		return
+	-- 	end
+	-- end
+	-- if (hostConfig.cookie_check==true) then
+	-- 	if (Lib.libsqli_cookie_check()~=true) then
+	-- 		Log.record(Utils.log_gen("libsqli_cookie_check"),red)
+	-- 		page.black_page({403,"Forbiddened By ScarletWAF","_"})
+	-- 		return
+	-- 	end
+	-- end
+	-- 使得lib Check独立于其他开关，也就是开启SQL检测会默认检测GET POST COOKIE HEADER中的数据
+	if (Lib.libsqli_get_check()~=true) then
+		Log.record(Utils.log_gen("libsqli_get_check"),red)
+		page.black_page({403,"Forbiddened By ScarletWAF","_"})
+		return
 	end
-	if (hostConfig.post_args_check==true) then
-		if (Lib.libsqli_post_check()~=true) then
-			Log.record(Utils.log_gen("libsqli_post_check"),red)
-			page.black_page({403,"Forbiddened By ScarletWAF","_"})
-			return
-		end
+	if (Lib.libsqli_post_check()~=true) then
+		Log.record(Utils.log_gen("libsqli_post_check"),red)
+		page.black_page({403,"Forbiddened By ScarletWAF","_"})
+		return
 	end
-	if (hostConfig.header_check==true) then
-		if (Lib.libsqli_header_check()~=true) then
-			Log.record(Utils.log_gen("libsqli_header_check"),red)
-			page.black_page({403,"Forbiddened By ScarletWAF","_"})
-			return
-		end
+	if (Lib.libsqli_header_check()~=true) then
+		Log.record(Utils.log_gen("libsqli_header_check"),red)
+		page.black_page({403,"Forbiddened By ScarletWAF","_"})
+		return
 	end
-	if (hostConfig.cookie_check==true) then
-		if (Lib.libsqli_cookie_check()~=true) then
-			Log.record(Utils.log_gen("libsqli_cookie_check"),red)
-			page.black_page({403,"Forbiddened By ScarletWAF","_"})
-			return
-		end
+	if (Lib.libsqli_cookie_check()~=true) then
+		Log.record(Utils.log_gen("libsqli_cookie_check"),red)
+		page.black_page({403,"Forbiddened By ScarletWAF","_"})
+		return
 	end
 end
 
